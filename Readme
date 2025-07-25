@@ -1,0 +1,50 @@
+1. QR Code Generation for Each Table
+Backend:
+Assign a unique code or URL for each table (e.g., /dinein?table=5).
+Use a library like qrcode (Node.js) to generate a QR code image for each table’s URL.
+Store or display these QR codes (print and place on tables).
+Frontend:
+Optionally, create a page for admins to download/print QR codes for all tables.
+
+2. Customer Scans QR and Lands on Dine-In Page
+Frontend:
+Create a /dinein route/page.
+When a customer scans the QR, they are taken to /dinein?table=5 (or whatever table number).
+On this page, prompt the customer to fill in their info (name, phone, guests).
+
+
+\3. Customer Info and Table Booking
+Frontend:
+After submitting info, store it in local state or localStorage.
+Mark the table as “Booked” in the backend (send a request to update table status).
+Backend:
+Update the table’s status to “Booked” and associate it with the customer info.
+
+
+\\4. Customer Orders from Their Phone
+Frontend:
+After info is filled, show the menu and allow the customer to add items to their cart and place an order.
+When the order is placed, send the order to the backend, associating it with the table and customer.
+Backend:
+Create a new order, link it to the table and customer, and set its status to “Pending” or “In Progress”.
+
+\\
+5. Admin Accepts/Manages Orders
+Admin Dashboard:
+Show new orders as they come in.
+Allow admin to accept, update status, or reject orders.
+
+6. Customer Can See Order Progress
+Frontend:
+On the customer’s phone, show the current status of their order (e.g., “In Progress”, “Ready”, “Served”).
+Poll the backend or use websockets for real-time updates.
+
+7. Customer Can Request Waiter Help
+Frontend:
+Add a “Call Waiter” button on the customer’s order/progress page.
+When clicked, send a request to the backend.
+Backend/Admin:
+Notify the admin/waiter (e.g., show a notification in the dashboard).
+8. Security & Session Management
+Use a unique session/token for each customer session (e.g., store in localStorage or as a URL param).
+Prevent customers from accessing other tables’ orders.
