@@ -12,12 +12,21 @@ const app = express();
 connectDB()
 
 // Middleware
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://restro-rosy.vercel.app'
+];
+
 app.use(cors({
-  origin:['http://localhost:5173' , 
-    'https://restro-rosy.vercel.app/'
-  ],
-  credentials:true
-}))
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true
+}));
+
 
 app.use(express.json());
 app.use(cookieParser());
