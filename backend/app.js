@@ -13,7 +13,9 @@ connectDB()
 
 // Middleware
 app.use(cors({
-  origin:['http://localhost:5173'],
+  origin:['http://localhost:5173' , 
+    'https://restro-rosy.vercel.app/'
+  ],
   credentials:true
 }))
 
@@ -38,5 +40,5 @@ app.use(globalErrorHandler);
 // Start server
 const PORT = config.port || 5000;
 app.listen(PORT, () => {
-  console.log(`✅ Server is running on http://localhost:${PORT}`);
+  console.log(`✅ Server is running`);
 });
