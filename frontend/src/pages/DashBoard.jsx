@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { MdCategory, MdTableBar } from 'react-icons/md'
 import { BiSolidDish } from 'react-icons/bi'
 import { useNavigate, useLocation } from 'react-router-dom'
-import Metrics from '../component/dashBoard/Metrics'
 import RecentOrder from '../component/dashBoard/RecentOrder'
 import TableModel from '../component/dashBoard/Addtable/Model'
 import DishModel from '../component/dashBoard/AddDishes/Model'
@@ -27,20 +26,20 @@ const buttons = [
   }
 ]
 
-const tabs = ["Metrics", "Orders", "Payments"]
+const tabs = ["Current Orders", "Orders", "Payments"]
 
 const DashBoard = () => {
   const [isTableModelOpen, setIsTableModelOpen] = useState(false);
   const [isCategoryModelOpen, setIsCategoryModelOpen] = useState(false);
   const [isDishesModelOpen, setIsDishesModelOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("Metrics")
+  const [activeTab, setActiveTab] = useState("Current Orders")
   const navigate = useNavigate();
   const location = useLocation();
 
   React.useEffect(() => {
     const params = new URLSearchParams(location.search);
     const tab = params.get('tab');
-    if (tab && ["Metrics", "Orders", "Payments"].includes(tab)) {
+    if (tab && ["Current Orders", "Orders", "Payments"].includes(tab)) {
       setActiveTab(tab);
     }
   }, [location.search]);
@@ -97,8 +96,8 @@ const DashBoard = () => {
 
         </div>
       </div>
+      {activeTab === 'Current Orders' && <RecentOrder onlyCurrent={true} />}
       {activeTab === 'Orders' && <RecentOrder />}
-      {activeTab === 'Metrics' && <Metrics />}
       {activeTab === 'Payments' && <Payments />}
 
       {isTableModelOpen && <TableModel onClose={() => setIsTableModelOpen(false)} />}

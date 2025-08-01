@@ -6,7 +6,7 @@ import { getOrder, updateOrder } from '../../https/index';
 import { formatDateAndTime } from "../../pages/index";
 import { FaLongArrowAltRight } from "react-icons/fa";
 
-const RecentOrder = () => {
+const RecentOrder = ({ onlyCurrent }) => {
   const queryClient = useQueryClient();
 
   const { data: resData, isError } = useQuery({
@@ -20,7 +20,8 @@ const RecentOrder = () => {
     mutationFn: ({ orderId, orderStatus }) => updateOrder({ orderId, orderStatus }),
     onSuccess: () => {
       enqueueSnackbar("Order status updated successfully!", { variant: "success" });
-      queryClient.invalidateQueries(["orders"]); // Re-fetch updated orders
+      queryClient.invalidateQueries(["orders"]);
+      queryClient.invalidateQueries(["tables"]);
     },
     onError: () => {
       enqueueSnackbar("Something went wrong!", { variant: "error" });
@@ -54,7 +55,15 @@ const RecentOrder = () => {
             </tr>
           </thead>
           <tbody className="bg-[#80ed99]">
-            {resData?.data.data.map((order) => (
+            {(resData?.data.data
+              ?.filter(order => {
+                if (onlyCurrent) {
+                  return order.orderStatus !== 'Completed';
+                } else {
+                  return order.orderStatus === 'Completed';
+                }
+              })
+              || []).map((order) => (
               <tr key={order._id} className="border-b border-gray-600 hover:bg-[#29bf12]">
                 <td className="p-4">#{Math.floor(new Date(order.orderDate).getTime())}</td>
                 <td className="p-4">{order.customerDetails.name}</td>

@@ -84,8 +84,8 @@ const login = async (req, res, next) => {
     res.cookie("accessToken", accessToken, {
       maxAge: 1000 * 60 * 60 * 24, // 1 day
       httpOnly: true,
-      sameSite: "none",
-      secure: true
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      secure: process.env.NODE_ENV === "production"
     });
 
     res.status(200).json({
@@ -121,10 +121,10 @@ const getUserData = async (req, res, next) => {
 
 const logout = async (req, res, next) => {
   try {
-    res.clearCookie('accessToken', {
+    res.clearCookie('accessToken' , {
       httpOnly: true,
-      sameSite: "none",
-      secure: true
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      secure: process.env.NODE_ENV === "production"
     });
     res.status(200).json({
       success: true,

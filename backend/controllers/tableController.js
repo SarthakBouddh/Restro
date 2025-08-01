@@ -53,7 +53,7 @@ const getTable = async (req, res, next) => {
 
 const updateTable = async (req, res, next) => {
     try {
-        const { status, orderId } = req.body;
+        const { status , orderId } = req.body;
 
         // Validate status
         const validStatuses = ["Available", "Booked"];

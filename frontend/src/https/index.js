@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: "https://restro-rr7s.onrender.com" || import.meta.env.VITE_BACKEND_URL,
+  baseURL: VITE_BACKEND_URL || "http://localhost:8000",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -29,7 +29,7 @@ export const logout = () => api.post("/api/user/logout");
 
 export const addTable = (data) => api.post("/api/table" , data);
 export const getTable = () => api.get("/api/table");
-export const updateTable = ({tableId , ...tableData}) => api.put(`/api/table/${tableId}` , tableData);
+export const updateTable = ({tableId , tableStatus}) => api.put(`/api/table/${tableId}` , tableStatus);
 
 // payment endpoints
 export const createOrderRazorpay = (data) => api.post('/api/payment' , data)

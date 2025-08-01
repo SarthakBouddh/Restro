@@ -12,13 +12,14 @@ import useLoadData from "./hooks/useLoadData";
 import FullScreenLoader from "./component/FullScreenLoader";
 import DashBoard from "./pages/DashBoard";
 import UserLogin from "./dineIn/pages/UserLogin";
+import WaiterPage from "./pages/WaiterPage";
 
 function App() {
   const isLoading  = useLoadData();
   const location = useLocation();
   const hideHeaderRoutes = ["/auth"];
 
-  const {isAuth} = useSelector((state) => state.user);
+  const {isAuth, role} = useSelector((state) => state.user);
 
   if(isLoading){
     return <FullScreenLoader/>
@@ -28,14 +29,30 @@ function App() {
     if(!isAuth){
       return <Navigate to='/auth'/>
     }
-
     return children
   }
 
+  // If user is Waiter, show only WaiterPage and Header
+  if (role === 'Waiter') {
+    return (
+      <>
+        <Header />
+        <Routes>
+          <Route path="/waiter" element={
+            <ProtectedRoutes>
+              <WaiterPage />
+            </ProtectedRoutes>
+          } />
+          <Route path="*" element={<Navigate to="/waiter" />} />
+        </Routes>
+      </>
+    );
+  }
+
+  // For all other roles
   return (
     <>
       {!hideHeaderRoutes.includes(location.pathname) && <Header />}
-      
       <Routes>
         <Route path="/" element={
           <ProtectedRoutes>
@@ -53,7 +70,6 @@ function App() {
           <ProtectedRoutes>
             <Tables/>
           </ProtectedRoutes>
-        
         } />
         <Route path="/menu" element={
           <ProtectedRoutes>
@@ -62,14 +78,12 @@ function App() {
         } />
         <Route path="/dashboard" element={
           <ProtectedRoutes>
-            <DashBoard/>
+            {role === 'Admin' && <DashBoard />}
           </ProtectedRoutes>
         } />
         <Route path="*" element={<div>Not Found</div>} />
       </Routes>
-      
       {!hideHeaderRoutes.includes(location.pathname) && <BottomNav />}
-      {/* <UserLogin/> */}
     </>
   );
 }

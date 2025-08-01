@@ -31,8 +31,8 @@ const Register = (setIsRegister) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Sending:", formData); // 👀 Check this in console
     registerMutation.mutate(formData);
+    navigate("/login");
   };
 
   const registerMutation = useMutation({
@@ -158,7 +158,7 @@ const Register = (setIsRegister) => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full mt-6 py-2 text-lg bg-yellow-400 text-gray-900 font-bold rounded-lg"
+            className="w-full mt-6 py-2 text-lg bg-yellow-400 text-gray-900 font-bold rounded-lg cursor-pointer"
           >
             Sign Up
           </button>

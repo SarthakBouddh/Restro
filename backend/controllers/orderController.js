@@ -1,6 +1,7 @@
 const createHttpError = require("http-errors");
 const Order = require("../models/orderModel")
 const mongoose = require("mongoose")
+const Table = require("../models/tableModel")
 
 const addOrder = async (req, res, next) => {
   try {
@@ -76,6 +77,14 @@ const updateOrder = async (req, res, next) => {
 
     if (!order) {
       return next(createHttpError(404, "Order not found"));
+    }
+
+    // If order is completed, update the table status to Available and clear currentOrder
+    if (orderStatus === 'Completed' && order.table) {
+      await Table.findByIdAndUpdate(order.table, {
+        status: 'Available',
+        currentOrder: null
+      });
     }
 
     res.status(200).json({

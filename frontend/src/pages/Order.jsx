@@ -62,6 +62,14 @@ const Order = () => {
         {
           resData?.data.data.length > 0 ? (
             resData.data.data
+              // .filter(order => {
+              //   // Only today's orders
+              //   const today = new Date();
+              //   const orderDate = new Date(order.orderDate);
+              //   return orderDate.getFullYear() === today.getFullYear() &&
+              //     orderDate.getMonth() === today.getMonth() &&
+              //     orderDate.getDate() === today.getDate();
+              // })
               .filter(order => status === "All" || order.orderStatus === status)
               .sort((a, b) => {
                 // Optional: prioritize statuses like: In Progress > Ready > Completed

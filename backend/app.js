@@ -47,7 +47,7 @@ app.use("/api/menu" , require("./routes/menuRoute"));
 app.use(globalErrorHandler);
 
 // Start server
-const PORT = config.port || 5000;
+const PORT = config.port || 8000;
 app.listen(PORT, () => {
-  console.log(`✅ Server is running`);
+  console.log(`✅ Server is running ${PORT}`);
 });

@@ -8,12 +8,29 @@ import { logout } from '../https/index';
 import { removeUser } from '../redux/slice/userSlice';
 import { useNavigate } from 'react-router-dom';
 import {MdDashboard} from 'react-icons/md'
+import { FaMoon, FaSun } from 'react-icons/fa';
 
 const Header = () => {
   const userData = useSelector(state => state.user);
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  // Dark mode state
+  const [darkMode, setDarkMode] = React.useState(() => {
+    return document.body.classList.contains('dark');
+  });
+
+  const toggleDarkMode = () => {
+    setDarkMode((prev) => {
+      const next = !prev;
+      if (next) {
+        document.body.classList.add('dark');
+      } else {
+        document.body.classList.remove('dark');
+      }
+      return next;
+    });
+  };
 
   const logoutMutation = useMutation({
     mutationFn: () => logout(),
@@ -31,7 +48,7 @@ const Header = () => {
     logoutMutation.mutate();
   }
   return (
-    <div className='flex justify-between items-center py-4 px-8 bg-[#80ed99]' >
+    <div className={`flex justify-between items-center py-4 px-8 bg-[#80ed99]`} >
       <div onClick={() => {navigate('/')}} className='flex items-center gap-2 cursor-pointer'>
         <img src={logo} alt="restro logo" className='h-8 w-8' />
         <h1 className='text-lg font-semibold text-[#1a7431]'>Restro</h1>
@@ -44,6 +61,14 @@ const Header = () => {
       </div>
 
       <div className='flex items-center gap-4'>
+        {/* Dark mode toggle button */}
+        <button
+          onClick={toggleDarkMode}
+          className='bg-[#6ede7f] rounded-[15px] p-2 cursor-pointer flex items-center justify-center'
+          title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+        >
+          {darkMode ? <FaSun className='h-[22px] w-[22px] text-yellow-400' /> : <FaMoon className='h-[22px] w-[22px] text-gray-700' />}
+        </button>
         {
           userData.role == 'Admin' && (
             <div onClick={() => navigate("/dashboard")} className='bg-[#6ede7f] rounded-[15px] p-2 cursor-pointer'>
