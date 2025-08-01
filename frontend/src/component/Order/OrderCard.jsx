@@ -3,9 +3,13 @@ import { FaCheckDouble, FaCircle, FaLongArrowAltRight } from 'react-icons/fa'
 import { formatDateAndTime, getAvatarName } from '../../pages/index'
 import {GrUpdate} from 'react-icons/gr'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 const OrderCard = ({ order, width }) => {
     const navigate = useNavigate();
+
+    const [userData] = useSelector((state) => [state.user.userData]);
+
     return (
         <div
             className='bg-[#6ede7f] p-4 rounded-xl mb-4 shadow-sm'
@@ -76,7 +80,11 @@ const OrderCard = ({ order, width }) => {
                         </>
                     )}
                    </div>
-                   <GrUpdate onClick={() => navigate('/dashboard?tab=Orders')} className='text-[#1a7431] inline mr-4 cursor-pointer' size={20}/>
+                   {
+                      userData?.role === "admin" && (
+                        <GrUpdate onClick={() => navigate('/dashboard?tab=Orders')} className='text-[#1a7431] inline mr-4 cursor-pointer' size={20}/>
+                      )
+                   }
                 </div>
             </div>
 
