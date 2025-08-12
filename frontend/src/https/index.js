@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env?.VITE_BACKEND_URL || "http://localhost:8000",
-  withCredentials: true,
+  baseURL: '/api/v1', // Let Vercel rewrite this to Render in production
+  withCredentials: true, // Allow cookies
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json"
