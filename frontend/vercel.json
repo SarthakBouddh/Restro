@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/v1/(.*)",
-      "destination": "https://restro-rr7s.onrender.com/api/$1"
+      "destination": "https://restro-rr7s.onrender.com/$1"
     },
     {
       "source": "/(.*)",
